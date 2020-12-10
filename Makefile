@@ -14,3 +14,5 @@ install:
 upload:
 	./bin/arduino-cli upload -p /dev/ttyUSB0 --fqbn arduino:avr:uno --verbose $(sketch)
 
+serial:
+	microcom -p /dev/ttyUSB0
