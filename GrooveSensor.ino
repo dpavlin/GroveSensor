@@ -17,7 +17,9 @@ DHT dht(DHTPIN, DHTTYPE);
 
 
 Adafruit_BMP280 bmp; // I2C
- 
+
+
+#define BUTTON_PIN 6 
  
 void setup(void) {
   //u8x8.setBusClock(100000);  // If you breakout other modules, please enable this line
@@ -40,9 +42,16 @@ void setup(void) {
                   Adafruit_BMP280::FILTER_X16,      /* Filtering. */
                   Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
 
+  pinMode(BUTTON_PIN, OUTPUT);
+
 }
+
+unsigned long button_timeout;
  
 void loop(void) {
+
+  int oled_active = ! digitalRead(BUTTON_PIN);
+  u8x8.setPowerSave( oled_active );
 
   float temp, humi;
   temp = dht.readTemperature();
