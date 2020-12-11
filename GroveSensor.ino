@@ -51,9 +51,11 @@ void setup(void) {
 
 }
 
-unsigned long button_timeout;
+unsigned long t;
  
 void loop(void) {
+
+  t = millis();
 
   int oled_active = ! digitalRead(BUTTON_PIN);
   u8x8.setPowerSave( oled_active );
@@ -92,6 +94,15 @@ void loop(void) {
   Serial.print(",bmp_pressure=");
   Serial.print(pressure);
 
+  unsigned long sumSquare;
+  for(int i=0; i++; i<1000) {
+    int sound = analogRead(SOUND_PIN);
+    sumSquare += sound * sound;
+  }
+  int rms_sound = sqrt(sumSquare / 1000);
+  Serial.print(",rms_sound=");
+  Serial.print(rms_sound);
+
   int sound = analogRead(SOUND_PIN);
   u8x8.setCursor(0,3 * 9);
   u8x8.print( sound );
@@ -106,7 +117,10 @@ void loop(void) {
   Serial.println();
 
   u8x8.refreshDisplay();
-  delay(1000);
+
+  // next loop in 1000ms from start
+  t = t + 1000 - millis();
+  delay(t);
 
 }
 
