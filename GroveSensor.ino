@@ -20,6 +20,9 @@ Adafruit_BMP280 bmp; // I2C
 
 
 #define BUTTON_PIN 6 
+
+#define SOUND_PIN A2
+#define LIGHT_PIN A6
  
 void setup(void) {
   //u8x8.setBusClock(100000);  // If you breakout other modules, please enable this line
@@ -43,6 +46,8 @@ void setup(void) {
                   Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
 
   pinMode(BUTTON_PIN, OUTPUT);
+  pinMode(SOUND_PIN, INPUT);
+  pinMode(LIGHT_PIN, INPUT);
 
 }
 
@@ -72,7 +77,7 @@ void loop(void) {
 
   u8x8.print(" ");
 
-  u8x8.setCursor(0,9);
+  u8x8.setCursor(0,1 * 9);
   u8x8.print("Humidity:");
   u8x8.print(humi);
   u8x8.print("%");
@@ -82,11 +87,22 @@ void loop(void) {
   float pressure;
   pressure = bmp.readPressure();
 
-  u8x8.setCursor(0,18);
+  u8x8.setCursor(0,2 * 9);
   u8x8.print( pressure );
   Serial.print(",bmp_pressure=");
   Serial.print(pressure);
 
+  int sound = analogRead(SOUND_PIN);
+  u8x8.setCursor(0,3 * 9);
+  u8x8.print( sound );
+  Serial.print(",sound=");
+  Serial.print(sound);
+
+  int light = analogRead(LIGHT_PIN);
+  u8x8.setCursor(0,3 * 9);
+  u8x8.print( light );
+  Serial.print(",light=");
+  Serial.print(light);
   Serial.println();
 
   u8x8.refreshDisplay();
