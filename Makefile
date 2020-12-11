@@ -1,5 +1,5 @@
 #sketch := $(shell basename $(pwd))
-sketch := ../GrooveSensor
+sketch := ../GroveSensor
 
 all:
 	./bin/arduino-cli compile -b arduino:avr:uno --verbose $(sketch)
