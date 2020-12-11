@@ -67,7 +67,7 @@ void loop(void) {
 
   temp = bmp.readTemperature();
   u8x8.print( temp );
-  Serial.print(" bmp_temp=");
+  Serial.print(",bmp_temp=");
   Serial.print(temp);
 
   u8x8.print(" ");
@@ -76,7 +76,7 @@ void loop(void) {
   u8x8.print("Humidity:");
   u8x8.print(humi);
   u8x8.print("%");
-  Serial.print(" dht_humidity=");
+  Serial.print(",dht_humidity=");
   Serial.print(humi);
 
   float pressure;
@@ -84,7 +84,7 @@ void loop(void) {
 
   u8x8.setCursor(0,18);
   u8x8.print( pressure );
-  Serial.print(" bmp_pressure=");
+  Serial.print(",bmp_pressure=");
   Serial.print(pressure);
 
   Serial.println();
