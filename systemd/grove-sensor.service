@@ -1,0 +1,13 @@
+[Unit]
+Description=Send GroveSensor data into InfluxDB
+Documentation=https://github.com/dpavlin/GroveSensor
+After=network.target
+
+[Service]
+# user must be in dialout group
+User=dpavlin
+ExecStart=/home/dpavlin/GroveSensor/influx.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
