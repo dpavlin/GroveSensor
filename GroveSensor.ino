@@ -19,6 +19,12 @@ DHT dht(DHTPIN, DHTTYPE);
 Adafruit_BMP280 bmp; // I2C
 
 
+#include "LIS3DHTR.h"
+#include <Wire.h>
+LIS3DHTR<TwoWire> LIS; //IIC
+#define WIRE Wire
+
+
 #define BUTTON_PIN 6 
 
 #define SOUND_PIN A2
@@ -48,6 +54,14 @@ void setup(void) {
   pinMode(BUTTON_PIN, OUTPUT);
   pinMode(SOUND_PIN, INPUT);
   pinMode(LIGHT_PIN, INPUT);
+
+
+  LIS.begin(WIRE, 0x19);
+  LIS.openTemp();
+  delay(100);
+  LIS.setFullScaleRange(LIS3DHTR_RANGE_2G);
+  LIS.setOutputDataRate(LIS3DHTR_DATARATE_5KHZ);
+  LIS.setHighSolution(true); //High solution enable
 
 }
 
@@ -114,11 +128,22 @@ void loop(void) {
   u8x8.print( light );
   Serial.print(",light=");
   Serial.print(light);
-  Serial.println();
 
   u8x8.refreshDisplay();
 
-  // next loop in 1000ms from start
+  float x = 0, y = 0, z = 0;
+  for(int i=0; i<=300; i++) {
+	x += LIS.getAccelerationX();
+	y += LIS.getAccelerationY();
+	z += LIS.getAccelerationZ();
+  }
+
+  Serial.print(",x="); Serial.print(x);
+  Serial.print(",y="); Serial.print(y);
+  Serial.print(",z="); Serial.print(z);
+
+  Serial.println();
+
   t = t + 1000 - millis();
   delay(t);
 

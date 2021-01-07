@@ -10,6 +10,8 @@ install:
 	./bin/arduino-cli lib install 'DHT sensor library'
 	./bin/arduino-cli lib install U8g2
 	./bin/arduino-cli lib install 'Adafruit BMP280 Library'
+	./bin/arduino-cli lib install Grove-3-Axis-Digital-Accelerometer-2g-to-16g-LIS3DHTR
+
 
 upload:
 	./bin/arduino-cli upload -p /dev/ttyUSB0 --fqbn arduino:avr:uno --verbose $(sketch)
