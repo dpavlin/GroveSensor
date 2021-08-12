@@ -1,6 +1,11 @@
 #include <Arduino.h>
 #include <U8x8lib.h>
 
+#include "RunningAverage.h"
+
+RunningAverage temp_avg(10);
+RunningAverage hum_avg(10);
+
 #include "DHT.h"
 
 #include <Adafruit_BMP280.h>
@@ -74,9 +79,10 @@ void loop(void) {
   int oled_active = ! digitalRead(BUTTON_PIN);
   u8x8.setPowerSave( oled_active );
 
-  float temp, humi;
-  temp = dht.readTemperature();
-  humi = dht.readHumidity();
+  temp_avg.addValue( dht.readTemperature() );
+  hum_avg.addValue( dht.readHumidity() );
+  float temp = temp_avg.getAverage();
+  float humi = hum_avg.getAverage();
 
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(0, 0);
@@ -97,6 +103,7 @@ void loop(void) {
   u8x8.print("Humidity:");
   u8x8.print(humi);
   u8x8.print("%");
+
   Serial.print(",dht_humidity=");
   Serial.print(humi);
 
