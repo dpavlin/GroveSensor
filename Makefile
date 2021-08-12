@@ -19,3 +19,11 @@ upload:
 
 serial:
 	microcom -p /dev/ttyUSB0
+
+upgrade: systemctl-stop upload systemctl-start
+
+systemctl-stop:
+	sudo systemctl stop grove-sensor
+
+systemctl-start:
+	sudo systemctl start grove-sensor
